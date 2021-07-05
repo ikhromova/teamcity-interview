@@ -1,6 +1,7 @@
 package com.jetbrains.teamcity.qa.pageObjects;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selectors.byAttribute;
 import static com.codeborne.selenide.Selectors.byText;
@@ -15,6 +16,7 @@ public class StartOverview {
         createProject.click();
     }
 
+    @Step("goToAdministration")
     public Administration goToAdministration() {
         administrationHeaderTab.click();
         return page(Administration.class);

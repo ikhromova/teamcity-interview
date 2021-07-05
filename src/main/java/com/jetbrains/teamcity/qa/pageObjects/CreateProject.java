@@ -15,13 +15,13 @@ public class CreateProject {
     private SelenideElement repositoryUrl = $(byId("url"));
     private SelenideElement proceedBtn = $(byAttribute("type", "submit"));
 
-    @Step
+    @Step("fillRepositoryUrl")
     public void fillRepositoryUrl(String url) {
         repositoryUrl.shouldBe(Condition.visible, Duration.ofSeconds(10));
         repositoryUrl.val(url).pressEnter();
     }
 
-    @Step
+    @Step("submit")
     public CreateProjectFromUrlSetup submit() {
         proceedBtn.click();
         return page(CreateProjectFromUrlSetup.class);

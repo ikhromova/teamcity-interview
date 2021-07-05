@@ -2,7 +2,7 @@ package com.jetbrains.teamcity.qa;
 
 import com.jetbrains.teamcity.qa.pageObjects.CreateProject;
 import com.jetbrains.teamcity.qa.pageObjects.CreateProjectFromUrlSetup;
-import com.jetbrains.teamcity.qa.pageObjects.EditBuild;
+import com.jetbrains.teamcity.qa.pageObjects.EditBuildConfiguration;
 import com.jetbrains.teamcity.qa.pageObjects.Login;
 import org.testng.annotations.Test;
 
@@ -25,11 +25,17 @@ public class MostImportantTests extends BaseTest {
                 .checkBranchIsFilled("refs/heads/master")
                 .checkBranchSpecIsFilled("refs/heads/*")
                 .submit();
-        EditBuild editBuild = new EditBuild();
-        editBuild
-                .checkTitle()
-                .checkDiscoveredRunnersContain("Gradle", "Command Line")
+        EditBuildConfiguration editBuildConfiguration = new EditBuildConfiguration();
+        editBuildConfiguration
+                .titleShouldEqual("Auto-detected Build Steps")
+                .checkDiscoveredRunnersContain("Gradle")
                 .selectAllSteps()
                 .useSelected();
+        editBuildConfiguration
+                .titleShouldEqual("Build steps")
+                .buildStepNameShouldBe("Gradle")
+                .vcsRootsCounterShouldBe(1)
+//                .runTypeCounterShouldBe(1)
+                .buildTriggersCounterShouldBe(1);
     }
 }

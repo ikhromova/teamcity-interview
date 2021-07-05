@@ -38,7 +38,7 @@ public class Login {
         submitBtn.click();
     }
 
-    @Step
+    @Step("goToLoginAsSuperUser")
     public LoginSuperUser goToLoginAsSuperUser() {
         loginAsSuperUser.click();
         usernameField.should(Condition.disappear);
