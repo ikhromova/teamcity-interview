@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selectors.byId;
 import static com.codeborne.selenide.Selectors.byName;
 import static com.codeborne.selenide.Selenide.$;
 
-public class CreateProjectFromUrlSetup {
+public class CreateProjectFromUrlSetup extends BasePage {
     private SelenideElement projectNameField = $(byId("projectName"));
     private SelenideElement buildTypeNameField = $(byId("buildTypeName"));
     private SelenideElement branchField = $(byId("branch"));

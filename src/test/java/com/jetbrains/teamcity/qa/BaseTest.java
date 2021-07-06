@@ -11,7 +11,7 @@ public class BaseTest {
     @BeforeSuite(description = "Set up configuration")
     public void setUpConfiguration() {
         Configuration.baseUrl = "http://localhost:8111";
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true));
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
     }
 
     @AfterSuite(description = "Teardown")

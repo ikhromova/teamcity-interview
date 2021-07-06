@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selectors.byId;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
-public class CreateProject {
+public class CreateProject extends BasePage {
     private SelenideElement repositoryUrl = $(byId("url"));
     private SelenideElement proceedBtn = $(byAttribute("type", "submit"));
 

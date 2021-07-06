@@ -3,15 +3,17 @@ package com.jetbrains.teamcity.qa.pageObjects;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byTagName;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class EditBuildConfiguration {
+public class EditBuildConfiguration extends BasePage {
     private SelenideElement subTitle = $(byTagName("h2"));
     private SelenideElement useSelectedBtn = $("#discoveredRunners .btn.btn_hint");
     private ElementsCollection discoveredRunners = $$(byXpath("//*[@id=\"discoveredRunners\"]/table/tbody/*/td[2]"));
@@ -22,6 +24,11 @@ public class EditBuildConfiguration {
     private SelenideElement runTypeTab = $("#runType_Tab");
     private SelenideElement buildTriggersTab = $("#buildTriggers_Tab");
     private SelenideElement projects = $("#adminOverview_project_handle__RootContent .project_name a");
+
+    @Step("getProjectId")
+    public String getProjectId() {
+        return $(".last").shouldBe(visible).attr("data-projectid");
+    }
 
     public EditBuildConfiguration vcsRootsCounterShouldBe(Integer count) {
         $("#vcsRoots_Tab .tabCounter").shouldBe(text(count.toString()));
@@ -41,6 +48,10 @@ public class EditBuildConfiguration {
     public EditBuildConfiguration buildStepNameShouldBe(String buildStepName) {
         $(".editBuildStepRow .stepName").shouldBe(text(buildStepName));
         return this;
+    }
+
+    public void clickRunBtn() {
+        $(".runFirstBuild").click();
     }
 
     public EditBuildConfiguration checkDiscoveredRunnersContain(String... steps) {

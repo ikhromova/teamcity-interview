@@ -19,19 +19,24 @@ test {
 }
 
 allure {
-    version = '2.12.1'
+    def allureVersion = '2.13.8'
+    version = allureVersion
     autoconfigure = true
     aspectjweaver = true
-    allureJavaVersion = '2.14.0'
+    aspectjVersion = '1.9.7'
+    allureJavaVersion = '2.13.8'
+    useTestNG {
+        version = allureVersion
+    }
 }
 
 dependencies {
     implementation 'org.testng:testng:7.4.0'
     implementation 'com.codeborne:selenide:5.22.2'
-    implementation 'io.qameta.allure:allure-selenide:2.14.0'
-    implementation 'io.qameta.allure:allure-java-commons:2.14.0'
-    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.14.0'
+    implementation 'io.qameta.allure:allure-selenide:2.13.8'
+    implementation 'io.qameta.allure:allure-java-commons:2.13.8'
+//    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.13.8'
     implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-    implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
+//    implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
 }
 

@@ -28,6 +28,6 @@ public class LoginSuperUser {
 
     @Step
     private void submit() {
-        submitBtn.click();
+        submitBtn.shouldBe(Condition.visible).click();
     }
 }
