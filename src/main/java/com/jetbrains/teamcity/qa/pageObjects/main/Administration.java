@@ -1,6 +1,9 @@
-package com.jetbrains.teamcity.qa.pageObjects;
+package com.jetbrains.teamcity.qa.pageObjects.main;
 
 import com.codeborne.selenide.SelenideElement;
+import com.jetbrains.teamcity.qa.pageObjects.BasePage;
+import com.jetbrains.teamcity.qa.pageObjects.project.CreateProjectFromUrlSetup;
+import com.jetbrains.teamcity.qa.pageObjects.project.EditProject;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;

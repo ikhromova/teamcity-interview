@@ -1,6 +1,7 @@
-package com.jetbrains.teamcity.qa.pageObjects;
+package com.jetbrains.teamcity.qa.pageObjects.build;
 
 import com.codeborne.selenide.Condition;
+import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 
 import java.time.Duration;
 

@@ -1,7 +1,7 @@
 package com.jetbrains.teamcity.qa;
 
-import com.jetbrains.teamcity.qa.pageObjects.Login;
-import com.jetbrains.teamcity.qa.pageObjects.StartOverview;
+import com.jetbrains.teamcity.qa.pageObjects.login.Login;
+import com.jetbrains.teamcity.qa.pageObjects.main.StartOverview;
 import org.testng.annotations.Test;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -37,8 +37,16 @@ public class MostImportantTests extends BaseTest {
 //                .vcsRootsCounterShouldBe(1)
 ////                .runTypeCounterShouldBe(1)
 //                .buildTriggersCounterShouldBe(1);
-        new StartOverview().goToAdministration().openProject("TeamcityGradle9").openAdminActions().deleteProject();
+        new StartOverview().goToAdministration().openProject("TeamcityGradle4").openAdminActions().deleteProject();
 //        editBuildConfiguration.clickRunBtn();
 //        new BuildResults().passedTestBlockShouldEqual("1 test passed");
     }
+
+//    @Test(description = "Create project")
+//    public void newtest() throws IOException {
+//
+//        var url = VcsUtils.createPullRequest();
+//        sleep(10000);
+//        VcsUtils.closePullRequest(url);
+//    }
 }

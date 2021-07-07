@@ -1,7 +1,9 @@
-package com.jetbrains.teamcity.qa.pageObjects;
+package com.jetbrains.teamcity.qa.pageObjects.project;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import io.qameta.allure.Step;
 
 import java.time.Duration;
@@ -9,7 +11,6 @@ import java.time.Duration;
 import static com.codeborne.selenide.Selectors.byAttribute;
 import static com.codeborne.selenide.Selectors.byId;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.page;
 
 public class CreateProject extends BasePage {
     private SelenideElement repositoryUrl = $(byId("url"));
@@ -24,6 +25,6 @@ public class CreateProject extends BasePage {
     @Step("submit")
     public CreateProjectFromUrlSetup submit() {
         proceedBtn.click();
-        return page(CreateProjectFromUrlSetup.class);
+        return Selenide.page(CreateProjectFromUrlSetup.class);
     }
 }
