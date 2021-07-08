@@ -1,20 +1,34 @@
 package com.jetbrains.teamcity.qa.pageObjects;
 
-import com.codeborne.selenide.Condition;
 import com.jetbrains.teamcity.qa.pageObjects.main.Administration;
+import com.jetbrains.teamcity.qa.pageObjects.main.Projects;
 import io.qameta.allure.Step;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Selectors.byAttribute;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
 public class BasePage {
 
-    @Step("goToAdministration")
-    public Administration goToAdministration() {
-        $(byAttribute("data-hint-container-id", "header-administration-link")).shouldBe(Condition.visible, Duration.ofSeconds(10)).click();
+    public static final Duration longTimeout  = Duration.ofSeconds(10);
+
+    @Step("Go to administration page")
+    public Administration  goToAdministration() {
+        $("[data-hint-container-id='header-administration-link'] a").click();
         return page(Administration.class);
+    }
+
+    @Step("Open all projects tab")
+    public Projects openProjectsTab() {
+        $("[title='Projects']").click();
+        return page(Projects.class);
+    }
+
+    @Step("Check page title equal to \"{titleText}\"")
+    public void titleShouldContainText(String titleText) {
+        $("#restPageTitle a").shouldBe(visible).shouldHave(text(titleText));
     }
 }

@@ -2,7 +2,7 @@ package com.jetbrains.teamcity.qa;
 
 import io.restassured.RestAssured;
 
-public class VcsUtils {
+public class VcsMethods {
 
     public static String createPullRequest() {
         var response = RestAssured.given()

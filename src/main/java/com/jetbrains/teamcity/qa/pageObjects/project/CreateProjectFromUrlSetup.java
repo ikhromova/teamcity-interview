@@ -1,43 +1,55 @@
 package com.jetbrains.teamcity.qa.pageObjects.project;
 
-import com.codeborne.selenide.SelenideElement;
 import com.jetbrains.teamcity.qa.pageObjects.BasePage;
+import com.jetbrains.teamcity.qa.pageObjects.build.AutoDetectedBuildSteps;
+import io.qameta.allure.Step;
 
-import java.time.Duration;
-
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
-import static com.codeborne.selenide.Selectors.byId;
-import static com.codeborne.selenide.Selectors.byName;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
 
 public class CreateProjectFromUrlSetup extends BasePage {
-    private SelenideElement projectNameField = $(byId("projectName"));
-    private SelenideElement buildTypeNameField = $(byId("buildTypeName"));
-    private SelenideElement branchField = $(byId("branch"));
-    private SelenideElement branchSpecField = $(byId("teamcity:branchSpec"));
-    private SelenideElement submitBtn = $(byName("createProject"));
 
+    @Step
+    public String getProjectName() {
+        return $("#projectName").val();
+    }
+
+    @Step
+    public CreateProjectFromUrlSetup checkTheForm() {
+        titleShouldContainText("Create Project From URL");
+        $(".connectionSuccessful").shouldHave(text("The connection to the VCS repository has been verified"));
+        return this;
+    }
+
+    @Step
     public CreateProjectFromUrlSetup checkProjectNameIsFilled(String projectName) {
-        projectNameField.shouldHave(value(projectName), Duration.ofSeconds(10));
+        $("#projectName").shouldHave(value(projectName));
         return this;
     }
 
+    @Step
     public CreateProjectFromUrlSetup checkBuildTypeNameIsFilled(String buildTypeName) {
-        buildTypeNameField.shouldHave(value(buildTypeName));
+        $("#buildTypeName").shouldHave(value(buildTypeName));
         return this;
     }
 
+    @Step
     public CreateProjectFromUrlSetup checkBranchIsFilled(String branch) {
-        branchField.shouldHave(value(branch));
+        $("#branch").shouldHave(value(branch));
         return this;
     }
 
+    @Step
     public CreateProjectFromUrlSetup checkBranchSpecIsFilled(String branchSpec) {
-        branchSpecField.shouldHave(value(branchSpec));
+        $("#teamcity\\:branchSpec").shouldHave(value(branchSpec));
         return this;
     }
 
-    public void submit() {
-        submitBtn.click();
+    @Step
+    public AutoDetectedBuildSteps submit() {
+        $("[name='createProject']").click();
+        return page(AutoDetectedBuildSteps.class);
     }
 }

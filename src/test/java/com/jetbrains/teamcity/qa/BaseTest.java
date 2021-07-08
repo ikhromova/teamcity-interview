@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeSuite;
 
 public class BaseTest {
 
-    @BeforeSuite(description = "Set up configuration")
+    @BeforeSuite(description = "SetUp")
     public void setUpConfiguration() {
         Configuration.baseUrl = "http://localhost:8111";
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
