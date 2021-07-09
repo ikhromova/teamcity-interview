@@ -1,6 +1,7 @@
 package com.jetbrains.teamcity.qa;
 
 import com.jetbrains.teamcity.qa.pageObjects.BasePage;
+import com.jetbrains.teamcity.qa.pageObjects.build.BuildResults;
 import com.jetbrains.teamcity.qa.pageObjects.login.Login;
 import org.testng.annotations.Test;
 
@@ -11,7 +12,7 @@ public class MostImportantTests extends BaseTest {
     @Test(description = "Create project")
     public void createProject() {
         open("/");
-        var createProjectMenu = new Login().loginAs(null, "8227625318384614588")
+        var createProjectMenu = new Login().loginAs(null, "8656453123873842931")
                 .goToAdministration()
                 .createProject();
 
@@ -57,38 +58,90 @@ public class MostImportantTests extends BaseTest {
         editProjectSettings.openAdminActions().deleteProject();
     }
 
-//    @Test(description = "Create project")
-//    public void createProject() {
-//        open("/");
-//        new Login().goToLoginAsSuperUser().loginWithToken("8227625318384614588").goToAdministration();
-//                .createProject();
+    @Test(description = "Run build")
+    public void runBuild() {
+        open("/");
+        var createProjectMenu = new Login().loginAs(null, "8656453123873842931")
+                .goToAdministration()
+                .createProject();
 
-//        CreateProject createProject = new CreateProject();
-//        createProject.fillRepositoryUrl("https://github.com/marcobehlerjetbrains/teamcity-gradle.git");
+        var createProjectFromUrlSetup =  createProjectMenu
+                .checkTheForm()
+                .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
+                .fillUserName("test-integration-adventure")
+                .fillToken("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")
+                .submit();
+
+        var autoDetectedBuildSteps = createProjectFromUrlSetup
+                .checkTheForm()
+                .submit();
+
+        var buildSteps = autoDetectedBuildSteps
+                .subTitleShouldEqual("Auto-detected Build Steps")
+                .checkDiscoveredRunnersContain("Gradle")
+                .selectAllSteps()
+                .useSelected();
+        var projectId = buildSteps.getProjectId();
+        buildSteps
+                .subTitleShouldEqual("Build Steps")
+                .successMessageIsShown()
+                .buildStepsCountShouldEqual(1)
+                .buildStepsShouldContain("Gradle")
+                .vcsRootsCounterShouldBe(1)
+//                .buildStepTabShouldBe("Build Step: Gradle")
+                .buildTriggersCounterShouldBe(1);
+
+        buildSteps.clickRunBtn();
+        var buildInfo = new BuildResults();
+        buildInfo
+                .titleShouldContainTexts("#1")
+//                .openChangesTab()
+//                .vcsRootShouldContain("https://github.com/ikhromova/gradle-project-test")
+//                .revisionBranchShouldContain("refs/heads/master")
+                .passedTestBlockShouldEqual("1 test passed");
+
+        new BasePage().openProjectsTab().openProject(projectId).editProjectSettings().openAdminActions().deleteProject();
+    }
+
+//    @Test(description = "Run build from vcs trigger")
+//    public void runBuildFromVcsTrigger() {
+//        open("/");
+//        var createProjectMenu = new Login().loginAs(null, "3825374187092561042")
+//                .goToAdministration()
+//                .createProject();
 //
-//        CreateProjectFromUrlSetup projectSetup = createProject.submit();
-//        var projectName = projectSetup.getProjectName();
-//        projectSetup
-//                .checkProjectNameIsFilled("Teamcity Gradle")
-//                .checkBuildTypeNameIsFilled("Build")
-//                .checkBranchIsFilled("refs/heads/master")
-//                .checkBranchSpecIsFilled("refs/heads/*")
+//        var createProjectFromUrlSetup =  createProjectMenu
+//                .checkTheForm()
+//                .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
+//                .fillUserName("test-integration-adventure")
+//                .fillToken("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")
 //                .submit();
-//        EditBuildConfiguration editBuildConfiguration = new EditBuildConfiguration();
-//        editBuildConfiguration
-//                .titleShouldEqual("Auto-detected Build Steps")
+//
+//        var autoDetectedBuildSteps = createProjectFromUrlSetup
+//                .checkTheForm()
+//                .submit();
+//
+//        var buildSteps = autoDetectedBuildSteps
+//                .subTitleShouldEqual("Auto-detected Build Steps")
 //                .checkDiscoveredRunnersContain("Gradle")
 //                .selectAllSteps()
 //                .useSelected();
-//        editBuildConfiguration
-//                .titleShouldEqual("Build steps")
-//                .buildStepNameShouldBe("Gradle")
+//        var projectId = buildSteps.getProjectId();
+//        buildSteps
+//                .subTitleShouldEqual("Build Steps")
+//                .successMessageIsShown()
+//                .buildStepsCountShouldEqual(1)
+//                .buildStepsShouldContain("Gradle")
 //                .vcsRootsCounterShouldBe(1)
-////                .runTypeCounterShouldBe(1)
+////                .buildStepTabShouldBe("Build Step: Gradle")
 //                .buildTriggersCounterShouldBe(1);
-//        new StartOverview().goToAdministration().openProject("TeamcityGradle4").openAdminActions().deleteProject();
-//        editBuildConfiguration.clickRunBtn();
-//        new BuildResults().passedTestBlockShouldEqual("1 test passed");
+//
+//        buildSteps.clickRunBtn();
+//        new BuildResults()
+//                .runningStatusShouldEqual("1 build running")
+//                .passedTestBlockShouldEqual("1 test passed");
+//
+//        new BasePage().openProjectsTab().openProject(projectId).editProjectSettings().openAdminActions().deleteProject();
 //    }
 
 //    @Test(description = "Create project")
