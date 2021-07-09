@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import com.jetbrains.teamcity.qa.pageObjects.login.Login;
+import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -12,6 +13,11 @@ import org.testng.annotations.BeforeSuite;
 import static com.codeborne.selenide.Selenide.open;
 
 public class BaseTest {
+    public String repositoryUrl = "https://github.com/ikhromova/gradle-project-test";
+    public String githubUser = "test-integration-adventure";
+    public String githubPassword = "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";
+    public String buildTypeName = "Build";
+    public String runner = "Gradle";
 
     @BeforeSuite(description = "SetUp")
     public void setUpConfiguration() {
@@ -22,7 +28,7 @@ public class BaseTest {
     @BeforeMethod
     public void loginToTeamCity() {
         open("/");
-        new Login().loginAs(null, "1689708622505232287");
+        new Login().loginAs(null, "1730870028201753274");
     }
 
     @AfterSuite(description = "Teardown")
@@ -31,28 +37,12 @@ public class BaseTest {
         SelenideLogger.removeListener("AllureSelenide");
     }
 
+    @Step
     public String createDefaultProject() {
-        var createProjectMenu = new BasePage().goToAdministration().createProject();
-
-        var createProjectFromUrlSetup =  createProjectMenu
-                .checkTheForm()
-                .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
-                .fillUserName("test-integration-adventure")
-                .fillToken("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")
-                .submit();
-
-        var autoDetectedBuildSteps = createProjectFromUrlSetup
-                .checkTheForm()
-                .submit();
-
-        var buildSteps = autoDetectedBuildSteps
-                .checkDiscoveredRunnersContain("Gradle")
-                .selectAllSteps()
-                .useSelected();
-        buildSteps
-                .subTitleShouldEqual("Build Steps")
-                .successMessageIsShown();
-
+        var createProjectFromUrlSetup = new BasePage().goToAdministration().createProject()
+                .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
+        var autoDetectedBuildSteps = createProjectFromUrlSetup.checkTheForm().submit();
+        var buildSteps = autoDetectedBuildSteps.selectAllSteps().useSelected().successMessageIsShown();
         return buildSteps.getProjectId();
     }
 

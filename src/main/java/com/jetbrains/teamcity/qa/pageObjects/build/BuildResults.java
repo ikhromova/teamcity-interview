@@ -25,13 +25,19 @@ public class BuildResults extends BasePage {
 
     @Step("Check page title equal to \"{titleText}\"")
     public BuildResults titleShouldContainTexts(String titleText) {
-        $("#restPageTitle").shouldBe(visible).shouldHave(text(titleText));
+        $("#restPageTitle").shouldBe(visible, longTimeout).shouldHave(text(titleText));
         return this;
     }
 
     @Step
     public BuildResults openChangesTab() {
         $("#buildChangesDiv_Tab").click();
+        return this;
+    }
+
+    @Step
+    public BuildResults openResultsTab() {
+        $("#buildResultsDiv_Tab").click();
         return this;
     }
 

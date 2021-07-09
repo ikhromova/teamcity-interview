@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.page;
 
 public class AutoDetectedBuildSteps extends EditBuildConfiguration<AutoDetectedBuildSteps> {
-    private SelenideElement discoveredRunners = $("#discoveredRunners");
+    private SelenideElement discoveredRunners = $("#discoveredRunners").shouldBe(visible, longTimeout);
 
     public AutoDetectedBuildSteps buildStepNameShouldBe(String buildStepName) {
         $(".editBuildStepRow .stepName").shouldBe(text(buildStepName));
@@ -29,7 +29,7 @@ public class AutoDetectedBuildSteps extends EditBuildConfiguration<AutoDetectedB
 
     @Step
     public AutoDetectedBuildSteps selectAllSteps() {
-        discoveredRunners.$$("[type=checkbox]").forEach(SelenideElement::click);
+        discoveredRunners.$$(" [type=checkbox]").forEach(SelenideElement::click);
         return this;
     }
 

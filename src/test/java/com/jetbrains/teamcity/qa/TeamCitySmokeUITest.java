@@ -1,34 +1,30 @@
 package com.jetbrains.teamcity.qa;
 
 import com.jetbrains.teamcity.qa.pageObjects.BasePage;
-import com.jetbrains.teamcity.qa.pageObjects.build.BuildResults;
+import com.jetbrains.teamcity.qa.pageObjects.build.Build;
 import org.testng.annotations.Test;
 
-public class MostImportantTests extends BaseTest {
+public class TeamCitySmokeUITest extends BaseTest {
 
     @Test(description = "Create project")
     public void createProject() {
         var createProjectMenu = new BasePage().goToAdministration().createProject();
-
         var createProjectFromUrlSetup =  createProjectMenu
-                .checkTheForm()
-                .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
-                .fillUserName("test-integration-adventure")
-                .fillToken("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")
-                .submit();
+                .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
 
        var projectName = createProjectFromUrlSetup.getProjectName();
+
        var autoDetectedBuildSteps = createProjectFromUrlSetup
                 .checkTheForm()
-                .checkProjectNameIsFilled("Gradle Project Test")
-                .checkBuildTypeNameIsFilled("Build")
+                .checkProjectNameIsFilled(projectName)
+                .checkBuildTypeNameIsFilled(buildTypeName)
                 .checkBranchIsFilled("refs/heads/master")
                 .checkBranchSpecIsFilled("refs/heads/*")
                 .submit();
 
         var buildSteps = autoDetectedBuildSteps
                 .subTitleShouldEqual("Auto-detected Build Steps")
-                .checkDiscoveredRunnersContain("Gradle")
+                .checkDiscoveredRunnersContain(runner)
                 .selectAllSteps()
                 .useSelected();
 
@@ -36,36 +32,36 @@ public class MostImportantTests extends BaseTest {
                 .subTitleShouldEqual("Build Steps")
                 .successMessageIsShown()
                 .buildStepsCountShouldEqual(1)
-                .buildStepsShouldContain("Gradle")
+                .buildStepsShouldContain(runner)
                 .vcsRootsCounterShouldBe(1)
-//                .buildStepTabShouldBe("Build Step: Gradle")
                 .buildTriggersCounterShouldBe(1);
 
         var projectId = buildSteps.getProjectId();
 
         var editProjectSettings = new BasePage().openProjectsTab().openProject(projectId).editProjectSettings();
-        editProjectSettings.projectNameShouldBeEqual(projectName)
+        editProjectSettings
+                .projectNameShouldBeEqual(projectName)
                 .projectIdShouldBeEqual(projectId)
-                .buildConfigurationNameShouldEqual("Build")
-                .buildConfigurationStepsShouldEqual("Gradle");
-        editProjectSettings.openVcsRoots().vcsRootShouldContain("https://github.com/ikhromova/gradle-project-test");
-        editProjectSettings.openAdminActions().deleteProject();
+                .buildConfigurationNameShouldEqual(buildTypeName)
+                .buildConfigurationStepsShouldEqual(runner);
+        editProjectSettings.openVcsRoots().vcsRootShouldContain(repositoryUrl);
     }
 
     @Test(description = "Run build")
     public void runBuild() {
-       var projectId = createDefaultProject();
-
+        var projectId = createDefaultProject();
         new BasePage().openProjectsTab().openProject(projectId).openBuild().clickRunBtn();
-        var buildInfo = new BuildResults();
-        buildInfo
+        var build = new Build();
+        var buildResults = build
+                .runningStatusShouldEqual("1 build running")
+                .openFirstBuildResults();
+        buildResults
                 .titleShouldContainTexts("#1")
-//                .openChangesTab()
-//                .vcsRootShouldContain("https://github.com/ikhromova/gradle-project-test")
-//                .revisionBranchShouldContain("refs/heads/master")
+                .openChangesTab()
+                .vcsRootShouldContain(repositoryUrl)
+                .revisionBranchShouldContain("refs/heads/master")
+                .openResultsTab()
                 .passedTestBlockShouldEqual("1 test passed");
-
-//        new BasePage().openProjectsTab().openProject(projectId).editProjectSettings().openAdminActions().deleteProject();
     }
 
     @Test(description = "Run build from vcs trigger")
@@ -85,8 +81,11 @@ public class MostImportantTests extends BaseTest {
 
         var url = VcsMethods.createPullRequest();
 
-        new BasePage().openProjectsTab().openProject("GradleProjectTest").openBuild()
-                .openOverviewTab().runningStatusShouldEqual("1 build running");
+        new BasePage().openProjectsTab().openProject("GradleProjectTest")
+                .openBuild().openOverviewTab()
+                .runningStatusShouldEqual("1 build running")
+                .openFirstBuildResults()
+                .titleShouldContainTexts("#1");
 
         VcsMethods.closePullRequest(url);
     }

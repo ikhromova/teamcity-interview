@@ -13,6 +13,15 @@ import static com.codeborne.selenide.Selenide.$;
 public class CreateProjectMenu extends BasePage {
     private SelenideElement userName = $("#username");
 
+    public CreateProjectFromUrlSetup fillFormAndSubmit(String repositoryUrl, String username, String password){
+        return this
+                .checkTheForm()
+                .fillRepositoryUrl(repositoryUrl)
+                .fillUserName(username)
+                .fillToken(password)
+                .submit();
+    }
+
     @Step
     public CreateProjectMenu checkTheForm() {
         titleShouldContainText("Create project");
