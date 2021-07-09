@@ -1,12 +1,14 @@
 package com.jetbrains.teamcity.qa.pageObjects.project;
 
 import com.codeborne.selenide.SelenideElement;
+import com.jetbrains.teamcity.qa.pageObjects.build.EditBuildConfiguration;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.page;
 
 // TODO Может нужно использовать интерфейсы вместо наследования?
 public class EditProjectGeneralSettings extends EditProject {
@@ -36,5 +38,9 @@ public class EditProjectGeneralSettings extends EditProject {
         return this;
     }
 
-
+    @Step
+    public EditBuildConfiguration editBuildConfiguration() {
+        $("#configurations .edit a").click();
+        return page(EditBuildConfiguration.class);
+    }
 }

@@ -1,10 +1,12 @@
 package com.jetbrains.teamcity.qa.pageObjects.build;
 
 import com.codeborne.selenide.SelenideElement;
+import com.jetbrains.teamcity.qa.pageObjects.build.components.BuildSteps;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byXpath;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -21,7 +23,7 @@ public class AutoDetectedBuildSteps extends EditBuildConfiguration<AutoDetectedB
 //    TODO Поменять страшный xpath
     @Step
     public AutoDetectedBuildSteps checkDiscoveredRunnersContain(String buildSteps) {
-        $$(byXpath("//*[@id=\"discoveredRunners\"]/table/tbody/*/td[2]")).findBy(text(buildSteps)).should(exist);
+        $$(byXpath("//*[@id=\"discoveredRunners\"]/table/tbody/*/td[2]")).findBy(text(buildSteps)).shouldBe(visible, longTimeout).should(exist);
         return this;
     }
 

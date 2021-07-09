@@ -4,8 +4,8 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import com.jetbrains.teamcity.qa.pageObjects.project.CreateProjectMenu;
+import com.jetbrains.teamcity.qa.pageObjects.project.EditProject;
 import com.jetbrains.teamcity.qa.pageObjects.project.EditProjectGeneralSettings;
-import com.jetbrains.teamcity.qa.pageObjects.project.Project;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -28,14 +28,14 @@ public class Administration extends BasePage {
     }
 
     @Step
-    public Project open(SelenideElement project) {
+    public EditProject open(SelenideElement project) {
         project.click();
-        return page(Project.class);
+        return page(EditProject.class);
     }
 
     @Step
     public void deleteAllProjects() {
-        projects.forEach(project -> open(project).editProjectSettings().openAdminActions().deleteProject());
+        projects.forEach(project -> open(project).openAdminActions().deleteProject());
     }
 
 }

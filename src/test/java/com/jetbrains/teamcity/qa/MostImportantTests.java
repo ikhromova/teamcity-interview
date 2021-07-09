@@ -2,21 +2,15 @@ package com.jetbrains.teamcity.qa;
 
 import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import com.jetbrains.teamcity.qa.pageObjects.build.BuildResults;
-import com.jetbrains.teamcity.qa.pageObjects.login.Login;
 import org.testng.annotations.Test;
-
-import static com.codeborne.selenide.Selenide.open;
 
 public class MostImportantTests extends BaseTest {
 
     @Test(description = "Create project")
     public void createProject() {
-        open("/");
-        var createProjectMenu = new Login().loginAs(null, "8656453123873842931")
-                .goToAdministration()
-                .createProject();
+        var createProjectMenu = new BasePage().goToAdministration().createProject();
 
-       var createProjectFromUrlSetup =  createProjectMenu
+        var createProjectFromUrlSetup =  createProjectMenu
                 .checkTheForm()
                 .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
                 .fillUserName("test-integration-adventure")
@@ -60,38 +54,9 @@ public class MostImportantTests extends BaseTest {
 
     @Test(description = "Run build")
     public void runBuild() {
-        open("/");
-        var createProjectMenu = new Login().loginAs(null, "8656453123873842931")
-                .goToAdministration()
-                .createProject();
+       var projectId = createDefaultProject();
 
-        var createProjectFromUrlSetup =  createProjectMenu
-                .checkTheForm()
-                .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
-                .fillUserName("test-integration-adventure")
-                .fillToken("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")
-                .submit();
-
-        var autoDetectedBuildSteps = createProjectFromUrlSetup
-                .checkTheForm()
-                .submit();
-
-        var buildSteps = autoDetectedBuildSteps
-                .subTitleShouldEqual("Auto-detected Build Steps")
-                .checkDiscoveredRunnersContain("Gradle")
-                .selectAllSteps()
-                .useSelected();
-        var projectId = buildSteps.getProjectId();
-        buildSteps
-                .subTitleShouldEqual("Build Steps")
-                .successMessageIsShown()
-                .buildStepsCountShouldEqual(1)
-                .buildStepsShouldContain("Gradle")
-                .vcsRootsCounterShouldBe(1)
-//                .buildStepTabShouldBe("Build Step: Gradle")
-                .buildTriggersCounterShouldBe(1);
-
-        buildSteps.clickRunBtn();
+        new BasePage().openProjectsTab().openProject(projectId).openBuild().clickRunBtn();
         var buildInfo = new BuildResults();
         buildInfo
                 .titleShouldContainTexts("#1")
@@ -100,55 +65,29 @@ public class MostImportantTests extends BaseTest {
 //                .revisionBranchShouldContain("refs/heads/master")
                 .passedTestBlockShouldEqual("1 test passed");
 
-        new BasePage().openProjectsTab().openProject(projectId).editProjectSettings().openAdminActions().deleteProject();
+//        new BasePage().openProjectsTab().openProject(projectId).editProjectSettings().openAdminActions().deleteProject();
     }
 
-//    @Test(description = "Run build from vcs trigger")
-//    public void runBuildFromVcsTrigger() {
-//        open("/");
-//        var createProjectMenu = new Login().loginAs(null, "3825374187092561042")
-//                .goToAdministration()
-//                .createProject();
-//
-//        var createProjectFromUrlSetup =  createProjectMenu
-//                .checkTheForm()
-//                .fillRepositoryUrl("https://github.com/ikhromova/gradle-project-test")
-//                .fillUserName("test-integration-adventure")
-//                .fillToken("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")
-//                .submit();
-//
-//        var autoDetectedBuildSteps = createProjectFromUrlSetup
-//                .checkTheForm()
-//                .submit();
-//
-//        var buildSteps = autoDetectedBuildSteps
-//                .subTitleShouldEqual("Auto-detected Build Steps")
-//                .checkDiscoveredRunnersContain("Gradle")
-//                .selectAllSteps()
-//                .useSelected();
-//        var projectId = buildSteps.getProjectId();
-//        buildSteps
-//                .subTitleShouldEqual("Build Steps")
-//                .successMessageIsShown()
-//                .buildStepsCountShouldEqual(1)
-//                .buildStepsShouldContain("Gradle")
-//                .vcsRootsCounterShouldBe(1)
-////                .buildStepTabShouldBe("Build Step: Gradle")
-//                .buildTriggersCounterShouldBe(1);
-//
-//        buildSteps.clickRunBtn();
-//        new BuildResults()
-//                .runningStatusShouldEqual("1 build running")
-//                .passedTestBlockShouldEqual("1 test passed");
-//
-//        new BasePage().openProjectsTab().openProject(projectId).editProjectSettings().openAdminActions().deleteProject();
-//    }
+    @Test(description = "Run build from vcs trigger")
+    public void runBuildFromVcsTrigger() {
+        var projectId = createDefaultProject();
+        var generalSettings = new BasePage()
+                .openProjectsTab()
+                .openProject(projectId)
+                .editProjectSettings().openVcsRoots().editVcsRoot()
+                .editBranchSpec("+:refs/pull/*")
+                .setCustomPollingInterval(2)
+                .save().openGeneralSettings();
+        generalSettings
+                .editBuildConfiguration()
+                .openBuildTriggersTab()
+                .addVcsTrigger("+:*/merge");
 
-//    @Test(description = "Create project")
-//    public void newtest() throws IOException {
-//
-//        var url = VcsUtils.createPullRequest();
-//        sleep(10000);
-//        VcsUtils.closePullRequest(url);
-//    }
+        var url = VcsMethods.createPullRequest();
+
+        new BasePage().openProjectsTab().openProject("GradleProjectTest").openBuild()
+                .openOverviewTab().runningStatusShouldEqual("1 build running");
+
+        VcsMethods.closePullRequest(url);
+    }
 }

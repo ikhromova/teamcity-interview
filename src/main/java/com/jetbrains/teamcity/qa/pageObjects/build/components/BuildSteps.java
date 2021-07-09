@@ -1,6 +1,7 @@
-package com.jetbrains.teamcity.qa.pageObjects.build;
+package com.jetbrains.teamcity.qa.pageObjects.build.components;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.jetbrains.teamcity.qa.pageObjects.build.EditBuildConfiguration;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.CollectionCondition.containExactTextsCaseSensitive;

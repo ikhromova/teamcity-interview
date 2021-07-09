@@ -1,37 +1,30 @@
 package com.jetbrains.teamcity.qa.pageObjects.build;
 
-import com.codeborne.selenide.ElementsCollection;
+import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import io.qameta.allure.Step;
 
-import static com.codeborne.selenide.CollectionCondition.containExactTextsCaseSensitive;
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThanOrEqual;
-import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
 
-public class Build extends EditBuildConfiguration<Build> {
-    private ElementsCollection stepNames = $$(".stepName .stepName");
+public class Build extends BasePage {
 
     @Step
-    public Build buildStepsShouldContain(String... buildStepName) {
-        stepNames.should(containExactTextsCaseSensitive(buildStepName));
+    public Build openOverviewTab() {
+        $("#buildTypeStatusDiv_Tab").click();
         return this;
     }
 
     @Step
-    public Build buildStepsCountShouldEqual(int count) {
-       stepNames.shouldHave(sizeGreaterThanOrEqual(count));
-       return this;
+    public Build runningStatusShouldEqual(String runningStatus) {
+        $(".runningStatus").should(visible, timeoutForRunBuild).shouldBe(text(runningStatus));
+        return this;
     }
 
     @Step
-    public Build successMessageIsShown() {
-//       $("#unprocessed_buildRunnerSettingsUpdated").shouldHave(text("New build step added."));
-       $("#unprocessed_buildRunnerSettingsUpdated").should(exist);
-       return this;
+    public void clickRunBtn() {
+        $(".runFirstBuild").click();
     }
-
-
 
 
 
