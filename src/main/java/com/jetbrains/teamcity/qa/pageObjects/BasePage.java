@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class BasePage {
 
-    public static final Duration longTimeout  = Duration.ofSeconds(10);
+    public static final Duration longTimeout  = Duration.ofSeconds(15);
     public static final Duration superLongTimeout  = Duration.ofSeconds(30);
     public static final Duration timeoutForRunBuild  = Duration.ofSeconds(300);
 

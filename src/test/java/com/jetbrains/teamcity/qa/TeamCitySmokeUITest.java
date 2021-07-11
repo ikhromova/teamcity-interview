@@ -12,7 +12,7 @@ public class TeamCitySmokeUITest extends BaseTest {
         var createProjectFromUrlSetup =  createProjectMenu
                 .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
 
-       var projectName = createProjectFromUrlSetup.getProjectName();
+       var projectName = createProjectFromUrlSetup.setRandomProjectName();
 
        var autoDetectedBuildSteps = createProjectFromUrlSetup
                 .checkTheForm()
@@ -81,7 +81,7 @@ public class TeamCitySmokeUITest extends BaseTest {
 
         var url = VcsMethods.createPullRequest();
 
-        new BasePage().openProjectsTab().openProject("GradleProjectTest")
+        new BasePage().openProjectsTab().openProject(projectId)
                 .openBuild().openOverviewTab()
                 .runningStatusShouldEqual("1 build running")
                 .openFirstBuildResults()

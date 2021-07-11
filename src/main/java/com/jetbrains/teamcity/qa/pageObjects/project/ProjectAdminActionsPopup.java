@@ -6,10 +6,10 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ProjectAdminActionsPopup {
 
-    public void deleteProject() {
-        $(".quickLinksMenuPopup [title='Delete project']").shouldBe(visible).click();
-        $(".hostnameConfirmation").val("localhost:8111");
+    public void deleteProject(String hostname) {
+        $(".quickLinksMenuPopup [title='Delete project']").scrollTo().shouldBe(visible).click();
+        $(".hostnameConfirmation").val(hostname);
         $("[type=submit][value=Delete]").shouldBe(enabled).click();
-        $("#message_projectRemoved").shouldBe(visible);
+        $("#message_projectRemoved").scrollTo().shouldBe(visible);
     }
 }

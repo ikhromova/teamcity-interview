@@ -14,6 +14,9 @@ repositories {
 test {
     useTestNG() {
         useDefaultListeners = true
+        suites 'src/test/suites/smoke.xml'
+        systemProperty 'token', System.getProperty('token')
+        systemProperty 'domain', System.getProperty('domain')
     }
 }
 

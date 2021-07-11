@@ -36,12 +36,12 @@ public class Administration extends BasePage {
     }
 
     @Step
-    public void deleteAllProjects() {
+    public void deleteAllProjects(String hostname) {
         this.openProject("=_Root");
         var count = $$("table #subprojects .edit .btn").size();
         for (int i = 0; i < count; i++) {
-            $("table #subprojects .edit .btn").shouldBe(visible).click();
-            new ProjectAdminActionsPopup().deleteProject();
+            $("table #subprojects .edit .btn").scrollTo().shouldBe(visible).click();
+            new ProjectAdminActionsPopup().deleteProject(hostname);
         }
     }
 

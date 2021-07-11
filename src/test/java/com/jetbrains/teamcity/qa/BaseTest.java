@@ -10,6 +10,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import java.util.Optional;
+
 import static com.codeborne.selenide.Selenide.open;
 
 public class BaseTest {
@@ -21,19 +23,20 @@ public class BaseTest {
 
     @BeforeSuite(description = "SetUp")
     public void setUpConfiguration() {
-        Configuration.baseUrl = "http://localhost:8111";
+        Configuration.baseUrl = "http://" + domain();
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
     }
 
     @BeforeMethod
     public void loginToTeamCity() {
         open("/");
-        new Login().loginAs(null, "1730870028201753274");
+        new Login().loginAs(null, token());
     }
 
     @AfterSuite(description = "Teardown")
     public void tearDown() {
-        new BasePage().goToAdministration().deleteAllProjects();
+        loginToTeamCity();
+        new BasePage().goToAdministration().deleteAllProjects(domain());
         SelenideLogger.removeListener("AllureSelenide");
     }
 
@@ -41,18 +44,19 @@ public class BaseTest {
     public String createDefaultProject() {
         var createProjectFromUrlSetup = new BasePage().goToAdministration().createProject()
                 .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
+        createProjectFromUrlSetup.setRandomProjectName();
         var autoDetectedBuildSteps = createProjectFromUrlSetup.checkTheForm().submit();
         var buildSteps = autoDetectedBuildSteps.selectAllSteps().useSelected().successMessageIsShown();
         return buildSteps.getProjectId();
     }
 
-//    public String domain() {
-//        return Optional.ofNullable(System.getProperty("domain"))
-//                .orElseThrow(() -> new AssertionError("Domain property doesn't set"));
-//    }
-//
-//    public String token() {
-//        return Optional.ofNullable(System.getProperty("token"))
-//                .orElseThrow(() -> new AssertionError("Token property doesn't set"));
-//    }
+    public String domain() {
+        return Optional.ofNullable(System.getProperty("domain"))
+                .orElseThrow(() -> new AssertionError("Domain property doesn't set"));
+    }
+
+    public String token() {
+        return Optional.ofNullable(System.getProperty("token"))
+                .orElseThrow(() -> new AssertionError("Token property doesn't set"));
+    }
 }

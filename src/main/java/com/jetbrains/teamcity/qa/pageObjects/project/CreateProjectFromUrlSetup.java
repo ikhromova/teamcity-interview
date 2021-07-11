@@ -8,12 +8,15 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 public class CreateProjectFromUrlSetup extends BasePage {
 
     @Step
-    public String getProjectName() {
-        return $("#projectName").val();
+    public String setRandomProjectName() {
+        var projectName = randomAlphabetic(10);
+        $("#projectName").val(projectName);
+        return projectName;
     }
 
     @Step
