@@ -21,10 +21,11 @@ public class BaseTest {
     public String githubPassword = "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";
     public String buildTypeName = "Build";
     public String runner = "Gradle";
+    public String hostname = url().split("//")[1];
 
     @BeforeSuite(description = "Set up configuration")
     public void setUpConfiguration() {
-        Configuration.baseUrl = "http://" + domain();
+        Configuration.baseUrl = url();
     }
 
     @BeforeMethod(description = "Login to TeamCity server")
@@ -42,7 +43,7 @@ public class BaseTest {
     @AfterSuite(description = "Clean up after tests")
     public void tearDown() {
         loginToTeamCity();
-        new BasePage().goToAdministration().deleteAllProjects(domain());
+        new BasePage().goToAdministration().deleteAllProjects(hostname);
     }
 
     @Step("Create default project")
@@ -55,9 +56,9 @@ public class BaseTest {
         return buildSteps.getProjectId();
     }
 
-    public String domain() {
-        return Optional.ofNullable(System.getProperty("domain"))
-                .orElseThrow(() -> new AssertionError("Domain property doesn't set"));
+    public String url() {
+        return Optional.ofNullable(System.getProperty("url"))
+                .orElseThrow(() -> new AssertionError("URL property doesn't set"));
     }
 
     public String token() {
