@@ -43,7 +43,7 @@ public class BaseTest {
     @AfterSuite(description = "Clean up after tests")
     public void tearDown() {
         loginToTeamCity();
-        new BasePage().goToAdministration().deleteAllProjects(hostname);
+        new BasePage().goToAdministration().pauseAllBuilds();
     }
 
     @Step("Create default project")

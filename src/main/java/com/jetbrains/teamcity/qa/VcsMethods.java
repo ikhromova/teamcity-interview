@@ -41,6 +41,8 @@ public class VcsMethods {
     @Step("Close previous pull requests from Github")
     public static void closePreviousPullRequest() {
         var pr = getPullRequest();
-        closePullRequest(pr);
+        if (pr != null) {
+            closePullRequest(pr);
+        }
     }
 }

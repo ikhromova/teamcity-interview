@@ -14,7 +14,7 @@ git clone https://github.com/ikhromova/teamcity-interview.git
 ```
 3. Run tests with parameters:
 ```bash
-./gradlew test -Dtoken=<token> -Durl=<url>
+./gradlew clean test -Dtoken=<token> -Durl=<url>
 ```
 where 
  - url - url for web interface of TeamCity-server instance
@@ -22,11 +22,11 @@ where
 
 Example:
 ```bash
-./gradlew test -Dtoken=8396052050337377335 -Durl=http://localhost:8111
+./gradlew clean test -Dtoken=8396052050337377335 -Durl=http://localhost:8111
 ```
 
 # How to look at the report
-After executing test run command:
+When tests finished, run command:
 ```bash
  allure serve build/allure-results
 ```
