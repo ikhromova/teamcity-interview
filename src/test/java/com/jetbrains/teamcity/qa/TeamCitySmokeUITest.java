@@ -10,7 +10,7 @@ public class TeamCitySmokeUITest extends BaseTest {
     public void createProject() {
         var createProjectMenu = new BasePage().goToAdministration().createProject();
         var createProjectFromUrlSetup =  createProjectMenu
-                .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
+                .fillFormAndSubmit(repositoryUrl, githubUser, githubToken());
 
        var projectName = createProjectFromUrlSetup.setRandomProjectName();
 
@@ -79,8 +79,8 @@ public class TeamCitySmokeUITest extends BaseTest {
                 .openBuildTriggersTab()
                 .addVcsTrigger("+:*/merge");
 
-        VcsMethods.closePreviousPullRequest();
-        var url = VcsMethods.createPullRequest();
+        VcsMethods.closePreviousPullRequest(githubAuthToken);
+        var url = VcsMethods.createPullRequest(githubAuthToken);
 
         new BasePage().openProjectsTab().openProject(projectId)
                 .openBuild().openOverviewTab()
@@ -88,6 +88,6 @@ public class TeamCitySmokeUITest extends BaseTest {
                 .openFirstBuildResults()
                 .titleShouldContainTexts("#1");
 
-        VcsMethods.closePullRequest(url);
+        VcsMethods.closePullRequest(url, githubAuthToken);
     }
 }

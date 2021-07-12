@@ -14,15 +14,16 @@ git clone https://github.com/ikhromova/teamcity-interview.git
 ```
 3. Run tests with parameters:
 ```bash
-./gradlew clean test -Dtoken=<token> -Durl=<url>
+./gradlew clean test -Dtoken=<token> -Durl=<url> -Dgithub-token=<github-token>
 ```
 where 
  - url - url for web interface of TeamCity-server instance
  - token - super user authentication token (it can be found in Docker container logs)
+ - github-token - authentication token for test-github-user (can be found in Google Doc)
 
 Example:
 ```bash
-./gradlew clean test -Dtoken=8396052050337377335 -Durl=http://localhost:8111
+./gradlew clean test -Dtoken=8396052050337377335 -Durl=http://localhost:8111 -Dgithub-token=123qwe
 ```
 
 # How to look at the report

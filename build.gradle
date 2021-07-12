@@ -17,6 +17,7 @@ test {
         suites 'src/test/suites/smoke.xml'
         systemProperty 'token', System.getProperty('token')
         systemProperty 'url', System.getProperty('url')
+        systemProperty 'github-token', System.getProperty('github-token')
     }
 }
 
