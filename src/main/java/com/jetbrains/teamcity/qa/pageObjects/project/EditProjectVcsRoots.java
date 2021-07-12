@@ -8,13 +8,13 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class EditProjectVcsRoots extends EditProject {
 
-    @Step
+    @Step("VCS root should contain url = {url}")
     public EditProjectVcsRoots vcsRootShouldContain(String url) {
         $(".vcsRoot").shouldHave(text(url));
         return this;
     }
 
-    @Step
+    @Step("Go to edit VCS root")
     public EditVcsRoots editVcsRoot() {
         $("#projectVcsRoots .edit a").click();
         return page(EditVcsRoots.class);

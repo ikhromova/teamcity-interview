@@ -27,6 +27,7 @@ allure {
     aspectjweaver = true
     aspectjVersion = '1.9.7'
     allureJavaVersion = '2.13.8'
+    resultsDir = file('../allure-results')
     useTestNG {
         version = allureVersion
     }

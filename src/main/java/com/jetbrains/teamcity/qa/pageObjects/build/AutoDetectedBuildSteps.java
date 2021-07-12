@@ -15,27 +15,26 @@ import static com.codeborne.selenide.Selenide.page;
 public class AutoDetectedBuildSteps extends EditBuildConfiguration<AutoDetectedBuildSteps> {
     private SelenideElement discoveredRunners = $("#discoveredRunners").shouldBe(visible, longTimeout);
 
-    public AutoDetectedBuildSteps buildStepNameShouldBe(String buildStepName) {
-        $(".editBuildStepRow .stepName").shouldBe(text(buildStepName));
-        return this;
-    }
-
-//    TODO Поменять страшный xpath
-    @Step
+    @Step("Discovered runners should contain {buildSteps}")
     public AutoDetectedBuildSteps checkDiscoveredRunnersContain(String buildSteps) {
         $$(byXpath("//*[@id=\"discoveredRunners\"]/table/tbody/*/td[2]")).findBy(text(buildSteps)).shouldBe(visible, longTimeout).should(exist);
         return this;
     }
 
-    @Step
+    @Step("Select all detected steps")
     public AutoDetectedBuildSteps selectAllSteps() {
-        discoveredRunners.$$(" [type=checkbox]").forEach(SelenideElement::click);
+        discoveredRunners.$$(" #runnerId").forEach(SelenideElement::click);
         return this;
     }
 
-    @Step
+    @Step("Submit use selected steps")
     public BuildSteps useSelected() {
-        discoveredRunners.$(".btn.btn_hint").click();
+        discoveredRunners.$(" .btn.btn_hint").click();
         return page(BuildSteps.class);
+    }
+
+    @Step("Use all autodetected steps")
+    public BuildSteps useAllAutodetectedSteps() {
+        return checkDiscoveredRunnersContain("Gradle").selectAllSteps().useSelected();
     }
 }

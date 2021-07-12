@@ -11,15 +11,9 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class BuildResults extends BasePage {
 
-    @Step
+    @Step("Passed test block should be equal {passedTextBlock}")
     public BuildResults passedTestBlockShouldEqual(String passedTextBlock) {
         $(".passedTestsBlock .passCount").should(appear, timeoutForRunBuild).shouldBe(text(passedTextBlock));
-        return this;
-    }
-
-    @Step
-    public BuildResults runningStatusShouldEqual(String runningStatus) {
-        $(".runningStatus").should(visible, longTimeout).shouldBe(text(runningStatus));
         return this;
     }
 
@@ -29,31 +23,31 @@ public class BuildResults extends BasePage {
         return this;
     }
 
-    @Step
+    @Step("Open changes tab")
     public BuildResults openChangesTab() {
         $("#buildChangesDiv_Tab").click();
         return this;
     }
 
-    @Step
+    @Step("Open results tab")
     public BuildResults openResultsTab() {
         $("#buildResultsDiv_Tab").click();
         return this;
     }
 
-    @Step
+    @Step("VCS roots should contain {text}")
     public BuildResults vcsRootShouldContain(String text) {
         $("td.vcsRoot").shouldHave(text(text));
         return this;
     }
 
-    @Step
+    @Step("Revision branch should contain {text}")
     public BuildResults revisionBranchShouldContain(String text) {
         $(".revision.branch ").shouldHave(text(text));
         return this;
     }
 
-    @Step
+    @Step("Go to build")
     public Build goToBuild() {
         $(".last.buildType a").click();
         return page(Build.class);

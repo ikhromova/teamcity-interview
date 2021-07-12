@@ -8,19 +8,13 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class EditProject extends BasePage {
 
-    @Step
-    public ProjectAdminActionsPopup openAdminActions() {
-        $("[data-hint-container-id='project-admin-actions'] .btn").click();
-        return page(ProjectAdminActionsPopup.class);
-    }
-
-    @Step
+    @Step("Open general settings")
     public EditProjectGeneralSettings openGeneralSettings() {
         $("#projectGeneralTab_Tab").click();
         return page(EditProjectGeneralSettings.class);
     }
 
-    @Step
+    @Step("Open VCS roots")
     public EditProjectVcsRoots openVcsRoots() {
         $("#projectVcsRoots_Tab").click();
         return page(EditProjectVcsRoots.class);

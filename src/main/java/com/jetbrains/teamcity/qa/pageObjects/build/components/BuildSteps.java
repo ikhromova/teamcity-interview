@@ -13,27 +13,21 @@ import static com.codeborne.selenide.Selenide.$$;
 public class BuildSteps extends EditBuildConfiguration<BuildSteps> {
     private ElementsCollection stepNames = $$(".stepName .stepName");
 
-    @Step
+    @Step("Build steps should contain {buildStepName}")
     public BuildSteps buildStepsShouldContain(String... buildStepName) {
         stepNames.should(containExactTextsCaseSensitive(buildStepName));
         return this;
     }
 
-    @Step
+    @Step("Build steps count should be equal {count}")
     public BuildSteps buildStepsCountShouldEqual(int count) {
        stepNames.shouldHave(sizeGreaterThanOrEqual(count));
        return this;
     }
 
-    @Step
+    @Step("Update message is shown")
     public BuildSteps successMessageIsShown() {
-//       $("#unprocessed_buildRunnerSettingsUpdated").shouldHave(text("New build step added."));
        $("#unprocessed_buildRunnerSettingsUpdated").should(exist);
        return this;
     }
-
-
-
-
-
 }

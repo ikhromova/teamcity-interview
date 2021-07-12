@@ -13,6 +13,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class CreateProjectMenu extends BasePage {
     private SelenideElement userName = $("#username");
 
+    @Step("Fill form and submit")
     public CreateProjectFromUrlSetup fillFormAndSubmit(String repositoryUrl, String username, String password){
         return this
                 .checkTheForm()
@@ -22,7 +23,7 @@ public class CreateProjectMenu extends BasePage {
                 .submit();
     }
 
-    @Step
+    @Step("Check the form")
     public CreateProjectMenu checkTheForm() {
         titleShouldContainText("Create project");
         $("#parentId").shouldHave(value("_Root"));
@@ -48,7 +49,7 @@ public class CreateProjectMenu extends BasePage {
         return  this;
     }
 
-    @Step("submit")
+    @Step("Submit form")
     public CreateProjectFromUrlSetup submit() {
         $("[type='submit']").click();
         userName.shouldNotBe(visible, longTimeout);

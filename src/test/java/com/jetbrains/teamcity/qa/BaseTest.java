@@ -6,6 +6,7 @@ import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import com.jetbrains.teamcity.qa.pageObjects.login.Login;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
@@ -21,32 +22,36 @@ public class BaseTest {
     public String buildTypeName = "Build";
     public String runner = "Gradle";
 
-    @BeforeSuite(description = "SetUp")
+    @BeforeSuite(description = "Set up configuration")
     public void setUpConfiguration() {
         Configuration.baseUrl = "http://" + domain();
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
     }
 
-    @BeforeMethod
+    @BeforeMethod(description = "Login to TeamCity server")
     public void loginToTeamCity() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
         open("/");
         new Login().loginAs(null, token());
     }
 
-    @AfterSuite(description = "Teardown")
-    public void tearDown() {
-        loginToTeamCity();
-        new BasePage().goToAdministration().deleteAllProjects(domain());
+    @AfterMethod(description = "Close Selenide")
+    public void closeSelenide() {
         SelenideLogger.removeListener("AllureSelenide");
     }
 
-    @Step
+    @AfterSuite(description = "Clean up after tests")
+    public void tearDown() {
+        loginToTeamCity();
+        new BasePage().goToAdministration().deleteAllProjects(domain());
+    }
+
+    @Step("Create default project")
     public String createDefaultProject() {
         var createProjectFromUrlSetup = new BasePage().goToAdministration().createProject()
                 .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
         createProjectFromUrlSetup.setRandomProjectName();
         var autoDetectedBuildSteps = createProjectFromUrlSetup.checkTheForm().submit();
-        var buildSteps = autoDetectedBuildSteps.selectAllSteps().useSelected().successMessageIsShown();
+        var buildSteps = autoDetectedBuildSteps.useAllAutodetectedSteps().successMessageIsShown();
         return buildSteps.getProjectId();
     }
 

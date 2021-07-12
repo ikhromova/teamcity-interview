@@ -79,6 +79,7 @@ public class TeamCitySmokeUITest extends BaseTest {
                 .openBuildTriggersTab()
                 .addVcsTrigger("+:*/merge");
 
+        VcsMethods.closePreviousPullRequest();
         var url = VcsMethods.createPullRequest();
 
         new BasePage().openProjectsTab().openProject(projectId)

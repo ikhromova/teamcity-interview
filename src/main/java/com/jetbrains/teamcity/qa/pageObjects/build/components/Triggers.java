@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class Triggers extends EditBuildConfiguration<Triggers> {
 
-    @Step
+    @Step("Add VCS trigger")
     public Triggers addVcsTrigger(String branchFilter) {
         $(".section .btn .addNew").click();
         $("#-ufd-teamcity-ui-triggerNameSelector").click();
