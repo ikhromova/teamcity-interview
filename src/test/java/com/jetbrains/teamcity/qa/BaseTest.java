@@ -11,6 +11,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
+import java.util.Base64;
 import java.util.Optional;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -18,10 +19,10 @@ import static com.codeborne.selenide.Selenide.open;
 public class BaseTest {
     public String repositoryUrl = "https://github.com/ikhromova/gradle-project-test";
     public String githubUser = "test-integration-adventure";
-    public String githubPassword = "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";
+    public String githubPair = githubUser + ":" + githubToken();
+    public String githubAuthToken = Base64.getEncoder().encodeToString(githubPair.getBytes());
     public String buildTypeName = "Build";
     public String runner = "Gradle";
-    public String hostname = url().split("//")[1];
 
     @BeforeSuite(description = "Set up configuration")
     public void setUpConfiguration() {
@@ -49,7 +50,7 @@ public class BaseTest {
     @Step("Create default project")
     public String createDefaultProject() {
         var createProjectFromUrlSetup = new BasePage().goToAdministration().createProject()
-                .fillFormAndSubmit(repositoryUrl, githubUser, githubPassword);
+                .fillFormAndSubmit(repositoryUrl, githubUser, githubToken());
         createProjectFromUrlSetup.setRandomProjectName();
         var autoDetectedBuildSteps = createProjectFromUrlSetup.checkTheForm().submit();
         var buildSteps = autoDetectedBuildSteps.useAllAutodetectedSteps().successMessageIsShown();
@@ -64,5 +65,10 @@ public class BaseTest {
     public String token() {
         return Optional.ofNullable(System.getProperty("token"))
                 .orElseThrow(() -> new AssertionError("Token property doesn't set"));
+    }
+
+    public String githubToken() {
+        return Optional.ofNullable(System.getProperty("github-token"))
+                .orElseThrow(() -> new AssertionError("Github-token property doesn't set"));
     }
 }
