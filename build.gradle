@@ -2,6 +2,11 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'io.qameta.allure' version '2.8.1'
+    id "org.jetbrains.qodana" version "0.1.12"
+}
+
+configurations {
+    testCompile
 }
 
 group 'org.example'
@@ -32,6 +37,11 @@ allure {
     useTestNG {
         version = allureVersion
     }
+}
+
+qodana {
+    showReport = true
+    dockerImageName = 'docker pull registry.jetbrains.team/p/sa/containers/qodana-jvm:2021.2-eap'
 }
 
 dependencies {
