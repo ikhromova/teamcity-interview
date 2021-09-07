@@ -16,11 +16,11 @@ repositories {
     mavenCentral()
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(11)
-    }
-}
+//java {
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(11)
+//    }
+//}
 
 test {
     useTestNG() {
@@ -47,7 +47,11 @@ allure {
 
 qodana {
     showReport = true
-    dockerImageName = 'docker pull registry.jetbrains.team/p/sa/containers/qodana-jvm:2021.2-eap'
+//    dockerImageName = 'registry.jetbrains.team/p/sa/containers/qodana-jvm:2021.2-eap'
+//    dockerImageName = 'registry.jetbrains.team/p/sa/containers/qodana-jvm-community:2021.2-eap'
+//    dockerImageName = 'registry.jetbrains.team/p/sa/containers/qodana-android:2021.2-eap'
+//    dockerImageName = 'registry.jetbrains.team/p/sa/containers/qodana-python:2021.2-eap'
+//    dockerImageName = 'registry.jetbrains.team/p/sa/containers/qodana-php:2021.2-eap'
 }
 
 dependencies {
