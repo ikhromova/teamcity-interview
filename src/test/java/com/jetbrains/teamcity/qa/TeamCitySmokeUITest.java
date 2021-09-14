@@ -4,6 +4,8 @@ import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import com.jetbrains.teamcity.qa.pageObjects.build.Build;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 public class TeamCitySmokeUITest extends BaseTest {
 
     @Test(description = "Create project")
@@ -65,7 +67,7 @@ public class TeamCitySmokeUITest extends BaseTest {
     }
 
     @Test(description = "Run build from vcs trigger")
-    public void runBuildFromVcsTrigger() {
+    public void runBuildFromVcsTrigger() throws NullPointerException, IOException {
         var projectId = createDefaultProject();
         var generalSettings = new BasePage()
                 .openProjectsTab()
