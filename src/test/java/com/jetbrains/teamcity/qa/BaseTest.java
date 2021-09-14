@@ -22,10 +22,10 @@ public class BaseTest {
     public String runner = "Gradle";
     public String runnerdsaad = "Gradle";
 
-    @BeforeSuite(description = "Set up configuration")
-    public void setUpConfiguration() {
-        Configuration.baseUrl = url();
-    }
+//    @BeforeSuite(description = "Set up configuration")
+//    public void setUpConfiguration() {
+//        Configuration.baseUrl = url();
+//    }
 
     @BeforeMethod(description = "Login to TeamCity server")
     public void loginToTeamCity() {
