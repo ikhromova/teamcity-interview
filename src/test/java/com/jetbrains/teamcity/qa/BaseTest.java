@@ -6,10 +6,7 @@ import com.jetbrains.teamcity.qa.pageObjects.BasePage;
 import com.jetbrains.teamcity.qa.pageObjects.login.Login;
 import io.qameta.allure.Step;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.util.Base64;
 import java.util.Optional;
@@ -71,5 +68,10 @@ public class BaseTest {
     public String githubToken() {
         return Optional.ofNullable(System.getProperty("github-token"))
                 .orElseThrow(() -> new AssertionError("Github-token property doesn't set"));
+    }
+
+    @Test
+    public void testtest() {
+
     }
 }
