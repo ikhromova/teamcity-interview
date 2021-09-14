@@ -31,6 +31,7 @@ public class BaseTest {
     public void loginToTeamCity() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
         open("/");
+        Configuration.remote = token();
         new Login().loginAs(null, token());
     }
 
