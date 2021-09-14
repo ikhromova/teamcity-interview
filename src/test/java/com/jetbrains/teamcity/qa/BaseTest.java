@@ -23,6 +23,7 @@ public class BaseTest {
     public String githubAuthToken = Base64.getEncoder().encodeToString(githubPair.getBytes());
     public String buildTypeName = "Build";
     public String runner = "Gradle";
+    public String runnerdsaad = "Gradle";
 
     @BeforeSuite(description = "Set up configuration")
     public void setUpConfiguration() {
