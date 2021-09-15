@@ -22,16 +22,15 @@ public class BaseTest {
     public String runner = "Gradle";
     public String runnerdsaad = "Gradle";
 
-//    @BeforeSuite(description = "Set up configuration")
-//    public void setUpConfiguration() {
-//        Configuration.baseUrl = url();
-//    }
+    @BeforeSuite(description = "Set up configuration")
+    public void setUpConfiguration() {
+        Configuration.baseUrl = url();
+    }
 
     @BeforeMethod(description = "Login to TeamCity server")
     public void loginToTeamCity() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide().screenshots(false).savePageSource(true).includeSelenideSteps(true));
         open("/");
-        Configuration.remote = token();
         new Login().loginAs(null, token());
     }
 
@@ -69,10 +68,5 @@ public class BaseTest {
     public String githubToken() {
         return Optional.ofNullable(System.getProperty("github-token"))
                 .orElseThrow(() -> new AssertionError("Github-token property doesn't set"));
-    }
-
-    @Test
-    public void testtest() {
-
     }
 }
