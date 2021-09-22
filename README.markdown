@@ -1,4 +1,4 @@
-# Jetbrains-TeamCity-QAA-Interview
+# Jetbrains-TeamCity-test-ptoject
 
 # Task
 Let’s assume you just joined the TeamCity team. Your goal is to introduce automated testing to improve the quality of the product and the development process. At first, you will need to come up with a list of the most important scenarios that should be covered. You will present those scenarios to the team. Please, think about those scenarios and provide a written description for 5-7 of them in a form you find fitting.  
