@@ -25,6 +25,7 @@ public class BaseTest {
     @BeforeSuite(description = "Set up configuration")
     public void setUpConfiguration() {
         Configuration.baseUrl = url();
+        Configuration.remote = token();
     }
 
     @BeforeMethod(description = "Login to TeamCity server")
