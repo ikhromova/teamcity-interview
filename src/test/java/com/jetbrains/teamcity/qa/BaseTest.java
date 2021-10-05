@@ -70,4 +70,7 @@ public class BaseTest {
         return Optional.ofNullable(System.getProperty("github-token"))
                 .orElseThrow(() -> new AssertionError("Github-token property doesn't set"));
     }
+
+    @Test
+    public void test() {}
 }
