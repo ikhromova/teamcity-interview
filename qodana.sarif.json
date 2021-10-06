@@ -67493,7 +67493,6 @@
           "partialFingerprints": {
             "equalIndicator/v1": "9c1125a88f866109895c6dfe66f297be2dfddbdde70c7cbda65bd8a9d68131f9"
           },
-          "baselineState": "new",
           "properties": {
             "ideaSeverity": "WARNING",
             "tags": [
@@ -67546,7 +67545,6 @@
           "partialFingerprints": {
             "equalIndicator/v1": "519052bf4a7b8f3afec006c7b6004f214763932de190729e4bc69ce7bd322f00"
           },
-          "baselineState": "unchanged",
           "properties": {
             "ideaSeverity": "WARNING",
             "tags": [
@@ -67599,7 +67597,6 @@
           "partialFingerprints": {
             "equalIndicator/v1": "f85c0d5b2a73be2eca597b0ef1b14176a0a38f70c6dd29d8e8681df31467fbb9"
           },
-          "baselineState": "absent",
           "properties": {
             "ideaSeverity": "WARNING",
             "tags": [
