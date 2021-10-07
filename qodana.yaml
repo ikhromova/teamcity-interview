@@ -1,6 +1,10 @@
 version: "1.0"
 profile:
-  name: qodana.recommended
+  path: myprofile.xml
 include:
-    - name: ModuleWithTooManyClasses
-    - name: TestCaseWithNoTestMethods
+  - name: TestCaseWithNoTestMethods
+  - name: AssignmentToStaticFieldFromInstanceMethod
+exclude:
+  - name: ModuleWithTooManyClasses
+    paths:
+      - src/test/java/com/jetbrains/teamcity/qa/BaseTest.java

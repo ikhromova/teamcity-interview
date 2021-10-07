@@ -71,6 +71,4 @@ public class BaseTest {
                 .orElseThrow(() -> new AssertionError("Github-token property doesn't set"));
     }
 
-    @Test
-    public void test() {}
 }
