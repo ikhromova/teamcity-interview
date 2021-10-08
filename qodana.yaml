@@ -6,5 +6,3 @@ include:
   - name: AssignmentToStaticFieldFromInstanceMethod
 exclude:
   - name: ModuleWithTooManyClasses
-    paths:
-      - src/test/java/com/jetbrains/teamcity/qa/BaseTest.java
