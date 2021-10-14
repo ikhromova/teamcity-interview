@@ -1,6 +1,6 @@
 version: "1.0"
 profile:
-  path: myprofile.xml
+  name: empty
 include:
   - name: TestCaseWithNoTestMethods
   - name: AssignmentToStaticFieldFromInstanceMethod
