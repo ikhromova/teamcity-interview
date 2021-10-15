@@ -1,5 +1,5 @@
 package com.jetbrains.teamcity.aq;
 
-abstract class abstractClass {
+abstract class abstractClass extends BaseTestAQAQ {
 
 }
